@@ -25,6 +25,7 @@ Firmware Outline:
 <br>
 <h3>Testing out the wiring and some preliminary firmware on a testbench:</h3>
 </p>
+(If you don't see the gif here it may have been too big to load, you can find it by navigating to to readme-visuals/coecsl-foc-controller-testbench.gif)
 <p align="center">
   <img width="50%" src="readme-visuals/coecsl-foc-controller-testbench.gif">
 </p>
