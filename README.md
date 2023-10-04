@@ -1,8 +1,9 @@
 # COECSL_FOC_Controller
 Design Files and Firmware for a BLDC FOC controller that will be used to teach lab experiments in UIUC ECE Control systems labs. (In progress, Fall 2023 Semester Project)
 <br>
+This project uses a dual-core Ti C2000 f28379D processor that runs at 200MHz and has two Control Law Accelerators (CLAs) which equates to having the computational power of 4 CPUs total. The processor interfaces with a DRV8353RS to commutate the motor, amplify shunt voltages, and provide fault protection.
 <p>
-Firmware is in progress, Hardware development will be started mid October 2023.
+Firmware for this project is in progress, Hardware development will be started in mid October 2023.
 </p>
 
 Firmware Outline:
