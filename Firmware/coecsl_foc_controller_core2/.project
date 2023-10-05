@@ -34,7 +34,7 @@
 	<variableList>
 		<variable>
 			<name>C2000WARE_COMMON_INCLUDE</name>
-			<value>file:/C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include</value>
+			<value>$%7BCOM_TI_C2000WARE_SOFTWARE_PACKAGE_INSTALL_DIR%7D/device_support/f2837xd/common/include</value>
 		</variable>
 		<variable>
 			<name>C2000WARE_DLIB_ROOT</name>
@@ -42,7 +42,7 @@
 		</variable>
 		<variable>
 			<name>C2000WARE_HEADERS_INCLUDE</name>
-			<value>file:/C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/headers/include</value>
+			<value>$%7BCOM_TI_C2000WARE_SOFTWARE_PACKAGE_INSTALL_DIR%7D/device_support/f2837xd/headers/include</value>
 		</variable>
 		<variable>
 			<name>C2000WARE_ROOT</name>

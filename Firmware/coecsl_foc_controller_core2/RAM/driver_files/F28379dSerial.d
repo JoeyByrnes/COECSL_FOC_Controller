@@ -76,8 +76,8 @@ driver_files/F28379dSerial.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/
 driver_files/F28379dSerial.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_SysCtrl_defines.h
 driver_files/F28379dSerial.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_Upp_defines.h
 driver_files/F28379dSerial.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_defaultisr.h
-driver_files/F28379dSerial.obj: C:/Users/joeyb/workspace_v12_CC/multicore_lp_f2837xd_core2/driver_files/buffer.h
-driver_files/F28379dSerial.obj: C:/Users/joeyb/workspace_v12_CC/multicore_lp_f2837xd_core2/driver_files/f28379dSerial.h
+driver_files/F28379dSerial.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core2/driver_files/buffer.h
+driver_files/F28379dSerial.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core2/driver_files/f28379dSerial.h
 
 ../driver_files/F28379dSerial.c:
 
@@ -231,7 +231,7 @@ C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_U
 
 C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_defaultisr.h:
 
-C:/Users/joeyb/workspace_v12_CC/multicore_lp_f2837xd_core2/driver_files/buffer.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core2/driver_files/buffer.h:
 
-C:/Users/joeyb/workspace_v12_CC/multicore_lp_f2837xd_core2/driver_files/f28379dSerial.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core2/driver_files/f28379dSerial.h:
 

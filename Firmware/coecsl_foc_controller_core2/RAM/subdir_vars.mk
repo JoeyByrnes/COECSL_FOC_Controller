@@ -6,7 +6,7 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CMD_SRCS += \
-../2837xD_FLASH_lnk_cpu2.cmd 
+../2837xD_FLASH_CLA_lnk_cpu2.cmd 
 
 SYSCFG_SRCS += \
 ../empty_ipc_lab_lp_cpu2.syscfg 
@@ -17,7 +17,7 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/ccs/Debug/driverlib
 C_SRCS += \
 ./syscfg/board.c \
 ./syscfg/c2000ware_libraries.c \
-../lab_main_cpu2.c 
+../main_cpu2.c 
 
 GEN_FILES += \
 ./syscfg/board.c \
@@ -31,7 +31,7 @@ GEN_MISC_DIRS += \
 C_DEPS += \
 ./syscfg/board.d \
 ./syscfg/c2000ware_libraries.d \
-./lab_main_cpu2.d 
+./main_cpu2.d 
 
 GEN_OPTS += \
 ./syscfg/board.opt \
@@ -40,7 +40,7 @@ GEN_OPTS += \
 OBJS += \
 ./syscfg/board.obj \
 ./syscfg/c2000ware_libraries.obj \
-./lab_main_cpu2.obj 
+./main_cpu2.obj 
 
 GEN_MISC_FILES += \
 ./syscfg/board.h \
@@ -56,7 +56,7 @@ GEN_MISC_DIRS__QUOTED += \
 OBJS__QUOTED += \
 "syscfg\board.obj" \
 "syscfg\c2000ware_libraries.obj" \
-"lab_main_cpu2.obj" 
+"main_cpu2.obj" 
 
 GEN_MISC_FILES__QUOTED += \
 "syscfg\board.h" \
@@ -69,7 +69,7 @@ GEN_MISC_FILES__QUOTED += \
 C_DEPS__QUOTED += \
 "syscfg\board.d" \
 "syscfg\c2000ware_libraries.d" \
-"lab_main_cpu2.d" 
+"main_cpu2.d" 
 
 GEN_FILES__QUOTED += \
 "syscfg\board.c" \
@@ -83,6 +83,6 @@ SYSCFG_SRCS__QUOTED += \
 C_SRCS__QUOTED += \
 "./syscfg/board.c" \
 "./syscfg/c2000ware_libraries.c" \
-"../lab_main_cpu2.c" 
+"../main_cpu2.c" 
 
 

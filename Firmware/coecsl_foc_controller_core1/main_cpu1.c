@@ -1,6 +1,6 @@
 //############################################################################
 //
-// FILE: lab_main_cpu1.c
+// FILE: main_cpu1.c
 //
 // TITLE: Lab - Empty SysConfig Inter Processor Communications
 //
@@ -73,47 +73,69 @@
 #include <math.h>
 #include <shared.h>
 #include "drv8323.h"
+#include "structs.h"
+#include "fsm.h"
+#include "foc.h"
+#include "user_config.h"
+#include "hw_config.h"
 
 extern uint16_t IPCBootCPU2(uint32_t ulBootMode);
 void CLA_configClaMemory(void);
 void CLA_initCpu1Cla1(void);
 
-typedef struct
-{
-    float I_BW;          // Current loop bandwidth
-    float I_MAX;         // Current limit
-    float THETA_MIN;     // Minimum position setpoint
-    float THETA_MAX;     // Maximum position setpoint
-    float I_FW_MAX;      // Maximum field weakening current
-    float R_NOMINAL;     // Nominal motor resistance, set during calibration
-    float TEMP_MAX;      // Temperature safety lmit
-    float I_MAX_CONT;    // Continuous max current
-    float PPAIRS;        // Number of motor pole-pairs
+//typedef struct
+//{
+//    float I_BW;          // Current loop bandwidth
+//    float I_MAX;         // Current limit
+//    float THETA_MIN;     // Minimum position setpoint
+//    float THETA_MAX;     // Maximum position setpoint
+//    float I_FW_MAX;      // Maximum field weakening current
+//    float R_NOMINAL;     // Nominal motor resistance, set during calibration
+//    float TEMP_MAX;      // Temperature safety lmit
+//    float I_MAX_CONT;    // Continuous max current
+//    float PPAIRS;        // Number of motor pole-pairs
+//
+//    float R_PHASE;       // Single phase resistance
+//    float KT;            // Torque Constant (N-m/A)
+//    float R_TH;          // Thermal resistance (C/W)
+//    float C_TH;          // Thermal mass (C/J)
+//    float GR;            // Gear ratio
+//    float I_CAL;         // Calibration Current
+//    float P_MIN;         // Position setpoint lower limit (rad)
+//    float P_MAX;         // Position setupoint upper bound (rad)
+//    float V_MIN;         // Velocity setpoint lower bound (rad/s)
+//    float V_MAX;         // Velocity setpoint upper bound (rad/s)
+//    float KP_MAX;        // Max position gain (N-m/rad)
+//    float KD_MAX;        // Max velocity gain (N-m/rad/s)
+//
+//
+//    int PHASE_ORDER;     // Phase swapping during calibration
+//    int CAN_ID;          // CAN bus ID
+//    int CAN_MASTER;      // CAN bus "master" ID
+//    int CAN_TIMEOUT;     // CAN bus timeout period
+//    int M_ZERO;
+//    int E_ZERO;
+//    //int ENCODER_LUT;     // Encoder offset LUT - 128 elements long
+//}configData;
 
-    float R_PHASE;       // Single phase resistance
-    float KT;            // Torque Constant (N-m/A)
-    float R_TH;          // Thermal resistance (C/W)
-    float C_TH;          // Thermal mass (C/J)
-    float GR;            // Gear ratio
-    float I_CAL;         // Calibration Current
-    float P_MIN;         // Position setpoint lower limit (rad)
-    float P_MAX;         // Position setupoint upper bound (rad)
-    float V_MIN;         // Velocity setpoint lower bound (rad/s)
-    float V_MAX;         // Velocity setpoint upper bound (rad/s)
-    float KP_MAX;        // Max position gain (N-m/rad)
-    float KD_MAX;        // Max velocity gain (N-m/rad/s)
+/* Flash Registers */
+float __float_reg[64];
+int __int_reg[256];
+//PreferenceWriter prefs;
 
+int count = 0;
 
-    int PHASE_ORDER;     // Phase swapping during calibration
-    int CAN_ID;          // CAN bus ID
-    int CAN_MASTER;      // CAN bus "master" ID
-    int CAN_TIMEOUT;     // CAN bus timeout period
-    int M_ZERO;
-    int E_ZERO;
-    //int ENCODER_LUT;     // Encoder offset LUT - 128 elements long
-}configData;
+/* Structs for control, etc */
 
+ControllerStruct controller;
+ObserverStruct observer;
+COMStruct com;
+FSMStruct state;
+//EncoderStruct comm_encoder; // defined below in CLADataLS2
 DRVStruct drv;
+CalStruct comm_encoder_cal;
+CANTxMessage can_tx;
+CANRxMessage can_rx;
 
 uint32_t adcAResult;
 uint32_t adcBResult;
@@ -138,14 +160,26 @@ const void* enc_read_word_addr = (void*)&enc_read_word;
 
 #pragma DATA_SECTION(enc_pos,"CLADataLS2");
 uint16_t enc_pos=0;
+#pragma DATA_SECTION(enc_pos_history,"CLADataLS2");
+uint16_t enc_pos_history[20] = {0};
+#pragma DATA_SECTION(enc_vel,"CLADataLS2");
+float enc_vel=0;
+
+#pragma DATA_SECTION(comm_encoder,"CLADataLS2");
+EncoderStruct comm_encoder;
 
 
-uint16_t enc_vel=0;
 int enc_vel_int=0;
 uint16_t mid=0;
 
 int pwm_count = 0;
 int pwm_b_count = 0;
+
+int adc_calibration_samples = 0;
+int calibrate_adc_offsets = 0;
+int adc_a_offset = 0;
+int adc_b_offset = 0;
+#define NUM_ADC_CALIB_SAMPLES 1000
 
 uint32_t counter = 500;
 
@@ -249,15 +283,8 @@ void main(void)
 //    CLA_initCpu1Cla1();
     CLA_setTriggerSource(CLA_TASK_1, CLA_TRIGGER_EPWM2INT);
 
-//    Cla1Regs.MIER.bit.INT1 = 1U;
-
-
 //    IPCBootCPU2(C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH);
 
-    // Short delay to let the DAC and other peripherals start up.
-//    DEVICE_DELAY_US(1000);
-
-    //
     // Clear any IPC flags if set already
     //
     IPC_clearFlagLtoR(IPC_CPU1_L_CPU2_R, IPC_FLAG_ALL);
@@ -292,6 +319,43 @@ void main(void)
     drv_disable_gd(drv);
     DEVICE_DELAY_US(1000);
 
+    controller.dtc_u = 0.f;
+    controller.dtc_v = 0.f;
+    controller.dtc_w = 0.f;
+    set_dtc(&controller);
+
+    // ADC zero offsets for current shunt amplifier readings ==========================================
+
+    drv_enable_gd(drv);
+
+    controller.dtc_u = 0.f;
+    controller.dtc_v = 0.f;
+    controller.dtc_w = 0.f;
+    set_dtc(&controller);
+
+    calibrate_adc_offsets = 1;
+    while(adc_calibration_samples < NUM_ADC_CALIB_SAMPLES)
+    {
+        NOP; // wait for the ADC ISR to run for n samples in calibration mode
+    }
+    calibrate_adc_offsets = 0;
+
+    controller.adc_a_offset = adc_a_offset/NUM_ADC_CALIB_SAMPLES;
+    controller.adc_b_offset = adc_b_offset/NUM_ADC_CALIB_SAMPLES;
+
+    drv_disable_gd(drv);
+
+    // end ADC zero offsets for current shunt amplifier readings ======================================
+
+    /*
+     * TODO:
+     * port flash writer to c2000 using Flash API   [ ]
+     * add the ADC offset calibration here          [X] U
+     * add v_bus ADC reading                        [~]
+     * check the other TODO comments                [ ]
+     * edit the calibration function and test       [ ]
+     */
+
     while(1)
     {
 //        IPC_sendCommand(IPC_CPU1_L_CPU2_R, IPC_FLAG0, false, 0, 0, counter);
@@ -320,34 +384,9 @@ float32 angle = 0;
 #endif
 interrupt void PWM_ISR(void)
 {
+
     pwm_count++;
     //flags get cleared in ADC ISR since we need time for CLA to run before clearing
-    GpioDataRegs.GPBSET.bit.GPIO52 = 1;
-
-
-
-//    SpiaRegs.SPITXBUF = 0xFFFF;
-//    // Wait for SPIA to finish transmitting and receiving
-//    while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
-//    // Read the received data from SPIA
-//    enc_pos = SpiaRegs.SPIRXBUF & 0x3FFF;
-
-//    SpiaRegs.SPITXBUF = 0xFFFC;
-//    // Wait for SPIA to finish transmitting and receiving
-//    while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
-//    // Read the received data from SPIA
-//    mid = SpiaRegs.SPIRXBUF & 0x3FFF;
-//
-//
-//    SpiaRegs.SPITXBUF = 0xFFFF;
-//    // Wait for SPIA to finish transmitting and receiving
-//    while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
-//    // Read the received data from SPIA
-//    enc_vel = SpiaRegs.SPIRXBUF & 0x3FFF;
-//
-//    enc_vel_int = twoscomp14bit_to_int(enc_vel);
-
-    GpioDataRegs.GPBCLEAR.bit.GPIO52 = 1;
 
 }
 
@@ -362,26 +401,6 @@ interrupt void INT_PHASE_B_ISR(void)
 //    EPWM_clearEventTriggerInterruptFlag(PHASE_B_BASE);
 }
 
-#define SQRT3       1.73205080757f
-#define SQRT3_2     0.86602540378f
-#define SQRT1_3     0.57735026919f
-#define PI_F        3.14159274101f
-
-#ifdef _FLASH
-#pragma CODE_SECTION(dq0, ".TI.ramfunc");
-#endif
-void dq0(float theta, float a, float b, float c, float *d, float *q){
-    /* DQ0 Transform
-    Phase current amplitude = lengh of dq vector
-    i.e. iq = 1, id = 0, peak phase current of 1*/
-
-    float cf = cosf(theta);
-    float sf = sinf(theta);
-
-    *d = 0.6666667f*(cf*a + (SQRT3_2*sf-.5f*cf)*b + (-SQRT3_2*sf-.5f*cf)*c);   ///Faster DQ0 Transform
-    *q = 0.6666667f*(-sf*a - (-SQRT3_2*cf-.5f*sf)*b - (SQRT3_2*cf-.5f*sf)*c);
-
-}
 
 uint64_t print_counter = 0;
 #ifdef _FLASH
@@ -395,22 +414,40 @@ interrupt void INT_myADC0_1_ISR(void)
     adcAResult = AdcaResultRegs.ADCRESULT0;
     adcBResult = AdcbResultRegs.ADCRESULT0;
     adcCResult = AdccResultRegs.ADCRESULT0; // zero ~ 2360
-    uint32_t current = 0;
 
-    float ia = adcBResult*0.0201416;
-    float ib = adcAResult*0.0201416;
-    float ic = adcCResult*0.0201416;
+    // update controller with ADC data =====================================================
+
+    if(!PHASE_ORDER)
+    {
+        controller.adc_a_raw = adcAResult;
+        controller.adc_b_raw = adcBResult;
+    }
+    else
+    {
+        controller.adc_a_raw = adcBResult;
+        controller.adc_b_raw = adcAResult;
+    }
+
+    if(calibrate_adc_offsets && adc_calibration_samples < NUM_ADC_CALIB_SAMPLES)
+    {
+        adc_a_offset +=  controller.adc_a_raw;
+        adc_b_offset += controller.adc_b_raw;
+        adc_calibration_samples++;
+    }
+
+    controller.adc_vbus_raw = AdcdResultRegs.ADCRESULT0;
+    controller.v_bus = (float)controller.adc_vbus_raw*V_SCALE;
+
+    controller.i_a = controller.i_scale*(float)(controller.adc_a_raw - controller.adc_a_offset);    // Calculate phase currents from ADC readings
+    controller.i_b = controller.i_scale*(float)(controller.adc_b_raw - controller.adc_b_offset);
+    controller.i_c = -controller.i_a - controller.i_b;
+
+    // end update controller with ADC data =================================================
 
     angle = ( (float)(enc_pos) * (6.2831/1170.285) ) - 0.328 + 1.5708;
     while(angle > 6.2831) angle = angle - 6.2831;
     while(angle < 0) angle = angle + 6.2831;
 
-    float iq=0;
-    float id=0;
-
-    dq0(angle,ia,ib,ic,&id,&iq);
-
-    current = id+iq;
 
     if(print_counter > 400)
     {
@@ -419,22 +456,22 @@ interrupt void INT_myADC0_1_ISR(void)
     }
     print_counter++;
 
-    uint16_t duty0 = 0;//1250 + (int)(1240*sinf(angle));
-    uint16_t duty1 = 0;//1250 + (int)(1240*sinf(angle+2.09439));
-    uint16_t duty2 = 0;//1250 + (int)(1240*sinf(angle+4.18879));
-
-    if(run_motor == 1)
-    {
-        duty0 = 650 + (int)(300*sinf(angle));
-        duty1 = 650 + (int)(300*sinf(angle+2.09439));
-        duty2 = 650 + (int)(300*sinf(angle+4.18879));
-    }
-
-//    angle = angle + delta_angle;
-
-    EPwm1Regs.CMPB.bit.CMPB = duty0;
-    EPwm2Regs.CMPB.bit.CMPB = duty1;
-    EPwm3Regs.CMPB.bit.CMPB = duty2;
+//    uint16_t duty0 = 0;//1250 + (int)(1240*sinf(angle));
+//    uint16_t duty1 = 0;//1250 + (int)(1240*sinf(angle+2.09439));
+//    uint16_t duty2 = 0;//1250 + (int)(1240*sinf(angle+4.18879));
+//
+//    if(run_motor == 1)
+//    {
+//        duty0 = 650 + (int)(300*sinf(angle));
+//        duty1 = 650 + (int)(300*sinf(angle+2.09439));
+//        duty2 = 650 + (int)(300*sinf(angle+4.18879));
+//    }
+//
+////    angle = angle + delta_angle;
+//
+//    EPwm1Regs.CMPB.bit.CMPB = duty0;
+//    EPwm2Regs.CMPB.bit.CMPB = duty1;
+//    EPwm3Regs.CMPB.bit.CMPB = duty2;
 
     // ==================================================================================================
     // ========= BEGIN Motor control code here ==========================================================
@@ -444,7 +481,7 @@ interrupt void INT_myADC0_1_ISR(void)
     // ENCODER <- the CLA is triggered 2us before this runs so that the data is ready by now
     // CAN <- CAN comms happens on CPU2, access the data to update the FSM & control
     // FSM
-    //  > CONTROL
+    run_fsm(&state);
 
 
     // ==================================================================================================

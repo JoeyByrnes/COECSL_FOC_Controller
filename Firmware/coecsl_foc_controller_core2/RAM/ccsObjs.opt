@@ -1,6 +1,6 @@
 "./syscfg/board.obj"
 "./syscfg/c2000ware_libraries.obj"
-"./lab_main_cpu2.obj"
+"./main_cpu2.obj"
 "./device/F2837xD_CodeStartBranch.obj"
 "./device/device.obj"
 "./driver_files/F28379dSerial.obj"
@@ -13,7 +13,7 @@
 "./driver_files/F2837xD_PieVect.obj"
 "./driver_files/F2837xD_SysCtrl.obj"
 "./driver_files/F2837xD_usDelay.obj"
-"../2837xD_FLASH_lnk_cpu2.cmd"
+"../2837xD_FLASH_CLA_lnk_cpu2.cmd"
 "C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/ccs/Debug/driverlib.lib"
 "../driver_files/F2837xD_Headers_nonBIOS_cpu2.cmd"
 -llibc.a

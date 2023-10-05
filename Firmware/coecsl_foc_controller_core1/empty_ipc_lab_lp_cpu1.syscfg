@@ -12,6 +12,7 @@ const adc         = scripting.addModule("/driverlib/adc.js", {}, false);
 const adc1        = adc.addInstance();
 const adc2        = adc.addInstance();
 const adc3        = adc.addInstance();
+const adc4        = adc.addInstance();
 const led         = scripting.addModule("/driverlib/board_components/led", {}, false);
 const led1        = led.addInstance();
 const led2        = led.addInstance();
@@ -69,6 +70,14 @@ adc3.soc0Trigger       = "ADC_TRIGGER_EPWM1_SOCA";
 adc3.soc0Channel       = "ADC_CH_ADCIN4";
 adc3.soc0SampleWindow  = 16;
 adc3.useInterrupts     = false;
+
+adc4.$name             = "myADC3";
+adc4.adcBase           = "ADCD_BASE";
+adc4.adcClockPrescaler = "ADC_CLK_DIV_4_0";
+adc4.enabledSOCs       = ["ADC_SOC_NUMBER0"];
+adc4.soc0Trigger       = "ADC_TRIGGER_EPWM1_SOCA";
+adc4.soc0SampleWindow  = 16;
+adc4.soc0Channel       = "ADC_CH_ADCIN14";
 
 led1.$name                = "CPU1_LED";
 led1.$hardware            = system.deviceData.board.components.LED4;

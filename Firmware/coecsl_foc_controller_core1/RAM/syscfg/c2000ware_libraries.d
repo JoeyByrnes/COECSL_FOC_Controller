@@ -24,13 +24,8 @@ syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/debug.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_can.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h
-syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h
+syscfg/c2000ware_libraries.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h
+syscfg/c2000ware_libraries.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cla.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/clb.h
@@ -39,6 +34,11 @@ syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cmpss.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cputimer.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cputimer.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dac.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_dac.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dcsm.h
@@ -88,8 +88,15 @@ syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_upp.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/version.h
 syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/driver_inclusive_terminology_mapping.h
-syscfg/c2000ware_libraries.obj: syscfg/device.h
-syscfg/c2000ware_libraries.obj: syscfg/clocktree.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/device.h
+syscfg/c2000ware_libraries.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/stdlib.h
+syscfg/c2000ware_libraries.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/stdlibf.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/math/FPUfastRTS/c28/include/C28x_FPU_FastRTS.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/math/FPUfastRTS/c28/include/fastrts.h
+syscfg/c2000ware_libraries.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/math.h
+syscfg/c2000ware_libraries.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/_defs.h
+syscfg/c2000ware_libraries.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/machine/_limits.h
+syscfg/c2000ware_libraries.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/math/FPUfastRTS/c28/include/fpu32/C28x_FPU_FastRTS.h
 
 syscfg/c2000ware_libraries.c:
 
@@ -139,19 +146,9 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_can.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h:
 
@@ -168,6 +165,16 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cmpss.h:
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cputimer.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cputimer.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dac.h:
 
@@ -267,7 +274,21 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/version.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/driver_inclusive_terminology_mapping.h:
 
-syscfg/device.h:
+C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/device.h:
 
-syscfg/clocktree.h:
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/stdlib.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/stdlibf.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/math/FPUfastRTS/c28/include/C28x_FPU_FastRTS.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/math/FPUfastRTS/c28/include/fastrts.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/math.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/_defs.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/machine/_limits.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/math/FPUfastRTS/c28/include/fpu32/C28x_FPU_FastRTS.h:
 
