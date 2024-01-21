@@ -50,15 +50,15 @@ void MX_CAN1_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 typedef struct{
-	uint16_t id;
-	uint16_t data[8];
+    uint16_t id;
+    uint16_t data[8];
 //	CAN_RxHeaderTypeDef rx_header;
 //	CAN_FilterTypeDef filter;
 }CANRxMessage ;
 
 typedef struct{
-	uint16_t id;
-	uint16_t data[6];
+    uint16_t id;
+    uint16_t data[6];
 //	CAN_TxHeaderTypeDef tx_header;
 }CANTxMessage ;
 

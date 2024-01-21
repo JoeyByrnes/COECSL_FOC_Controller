@@ -23,13 +23,8 @@ device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/debug.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_can.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h
-device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h
+device/device.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h
+device/device.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cla.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/clb.h
@@ -38,6 +33,11 @@ device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cmpss.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cputimer.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cputimer.h
+device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h
+device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h
+device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h
+device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h
+device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dac.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_dac.h
 device/device.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dcsm.h
@@ -135,19 +135,9 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_can.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h:
 
@@ -164,6 +154,16 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cmpss.h:
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cputimer.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cputimer.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dac.h:
 

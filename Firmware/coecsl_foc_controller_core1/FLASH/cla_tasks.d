@@ -1,7 +1,7 @@
 # FIXED
 
 cla_tasks.obj: ../cla_tasks.cla
-cla_tasks.obj: C:/Users/joeyb/workspace_v12_CC/coecsl_foc_controller_core1/shared.h
+cla_tasks.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/shared.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_Cla_defines.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/driverlib.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_memmap.h
@@ -24,7 +24,8 @@ cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cpu.
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/debug.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h
-cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h
+cla_tasks.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h
+cla_tasks.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cla.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/clb.h
@@ -139,10 +140,17 @@ cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/in
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_SysCtrl_defines.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_Upp_defines.h
 cla_tasks.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_defaultisr.h
+cla_tasks.obj: ../position_sensor.h
+cla_tasks.obj: ../user_config.h
+cla_tasks.obj: ../hw_config.h
+cla_tasks.obj: ../math_ops.h
+cla_tasks.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/math.h
+cla_tasks.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/_defs.h
+cla_tasks.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/machine/_limits.h
 
 ../cla_tasks.cla:
 
-C:/Users/joeyb/workspace_v12_CC/coecsl_foc_controller_core1/shared.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/shared.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_Cla_defines.h:
 
@@ -188,7 +196,9 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h:
+
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h:
 
@@ -417,4 +427,18 @@ C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_S
 C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_Upp_defines.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/F2837xD_defaultisr.h:
+
+../position_sensor.h:
+
+../user_config.h:
+
+../hw_config.h:
+
+../math_ops.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/math.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/_defs.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/machine/_limits.h:
 

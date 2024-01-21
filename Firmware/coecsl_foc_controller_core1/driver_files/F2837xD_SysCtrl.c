@@ -316,15 +316,15 @@ void DisablePeripheralClocks(void)
 // This function MUST be executed out of RAM. Executing it out of OTP/Flash
 // will yield unpredictable results.
 //
-#ifdef __cplusplus
-    #ifdef __TI_COMPILER_VERSION__
-        #if __TI_COMPILER_VERSION__ >= 15009000
-            #pragma CODE_SECTION(".TI.ramfunc");
-        #else
-            #pragma CODE_SECTION("ramfuncs");
-        #endif
+
+#ifdef __TI_COMPILER_VERSION__
+    #if __TI_COMPILER_VERSION__ >= 15009000
+        #pragma CODE_SECTION(".TI.ramfunc");
+    #else
+        #pragma CODE_SECTION("ramfuncs");
     #endif
 #endif
+
 void InitFlash(void)
 {
     EALLOW;

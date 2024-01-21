@@ -71,9 +71,47 @@
 #include <stdlib.h>
 #include "string.h"
 
+//
+// Defines
+//
+#define TXCOUNT  100000
+#define MSG_DATA_LENGTH    8
+#define TX_MSG_OBJ_ID      1
+#define RX_MSG_OBJ_ID      2
+
+//
+// Globals
+//
+
+#pragma DATA_SECTION(__can_rx_msg,"Cpu2ToCpu1MsgRAM");
+uint16_t __can_rx_msg[8];
+
+volatile unsigned long i;
+volatile uint32_t txMsgCount = 0;
+volatile uint32_t rxMsgCount = 0;
+uint16_t txMsgData[8];
+uint16_t rxMsgData[8];
+
 uint16_t dataValue = 0;
 
 uint64_t print_counter = 0;
+
+uint8_t new_can_rx_data = 0;
+
+
+void unpackCANMsg(uint8_t* packedArray, uint16_t* pos, uint16_t* vel, uint16_t* cur)
+{
+    // Unpack position (two bytes) into a 16-bit value
+    *pos = ((uint16_t)packedArray[1] << 8) | packedArray[0];
+
+    // Unpack velocity (two bytes) into a 16-bit value
+    *vel = ((uint16_t)packedArray[3] << 8) | packedArray[2];
+
+    // Unpack current (two bytes) into a 16-bit value
+    *cur = ((uint16_t)packedArray[5] << 8) | packedArray[4];
+}
+
+
 #ifdef _FLASH
 #pragma CODE_SECTION(ipc0_ISR, ".TI.ramfunc");
 #endif
@@ -90,23 +128,35 @@ interrupt void ipc0_ISR(void)
     // Acknowledge IPC1 flag from remote.
     IPC_ackFlagRtoL(IPC_CPU2_L_CPU1_R, IPC_FLAG0);
 
-    // Get the ADC sample from CPU1 and store it in a circular buffer.
-    dataValue = (uint32_t)data;
+//    dataValue = (uint32_t)data;
+    uint8_t* candata = (uint8_t*)data;
 //    char msg[100];
 //    sprintf(msg, "Data: %u \r\n\0", dataValue);
 //    SCI_writeCharArray(debuggerSerial_BASE, (uint16_t*)msg, strlen(msg));
 
 //    if(print_counter%5000 == 0)
 //    {
-        char msg[100];
-        sprintf(msg, "ADC: %u \r\n", dataValue);
-        SCI_writeCharArray(debuggerSerial_BASE, (uint16_t*)msg, strlen(msg));
+//        uint16_t pos, vel,cur;
+//        unpackCANMsg(candata,&pos,&vel,&cur);
+//        char msg[100];
+//        sprintf(msg, "CAN DATA: %u, %u, %u\r\n", pos,vel,cur);
+//        SCI_writeCharArray(debuggerSerial_BASE, (uint16_t*)msg, strlen(msg));
 //    }
 //    print_counter++;
 
-//    // Send next DAC sample from the sinusoidal table to CPU1.
-//    IPC_sendCommand(IPC_CPU2_L_CPU1_R, IPC_FLAG1, false, 0, 0,
-//                    (uint32_t)(SinTable[SinPhase++ & LUT_MASK] >> (16 - DAC_OUTPUT_BITS)));
+        if(new_can_rx_data)
+        {
+            IPC_sendCommand(IPC_CPU2_L_CPU1_R, IPC_FLAG1, false, 0, 0, (uint32_t)(&__can_rx_msg[0]));
+        }
+
+        CAN_sendMessage(CANA_BASE, TX_MSG_OBJ_ID, MSG_DATA_LENGTH, txMsgData);
+
+        //
+        // Poll TxOk bit in CAN_ES register to check completion of transmission
+        //
+        while(((HWREGH(CANA_BASE + CAN_O_ES) & CAN_ES_TXOK)) !=  CAN_ES_TXOK)
+        {
+        }
 
 }
 
@@ -206,8 +256,52 @@ void main(void)
     // Enable real-time debug.
     ERTM;
 
+    //
+    // Initialize the receive message object used for receiving CAN messages.
+    // Message Object Parameters:
+    //      CAN Module: A
+    //      Message Object ID Number: 1
+    //      Message Identifier: 0x1
+    //      Message Frame: Standard
+    //      Message Type: Receive
+    //      Message ID Mask: 0x0
+    //      Message Object Flags: None
+    //      Message Data Length: "Don't care" for a Receive mailbox
+    //
+    CAN_setupMessageObject(CANA_BASE, RX_MSG_OBJ_ID, 0x1,
+                           CAN_MSG_FRAME_STD, CAN_MSG_OBJ_TYPE_RX, 0,
+                           CAN_MSG_OBJ_NO_FLAGS, MSG_DATA_LENGTH);
+
+    //
+    // Initialize the transmit message object used for sending CAN messages.
+    // Message Object Parameters:
+    //      CAN Module: A
+    //      Message Object ID Number: 1
+    //      Message Identifier: 0x01
+    //      Message Frame: Standard
+    //      Message Type: Transmit
+    //      Message ID Mask: 0x0
+    //      Message Object Flags: None
+    //      Message Data Length: 4 Bytes
+    //
+    CAN_setupMessageObject(CANA_BASE, TX_MSG_OBJ_ID, 0x1,
+                           CAN_MSG_FRAME_STD, CAN_MSG_OBJ_TYPE_TX, 0,
+                           CAN_MSG_OBJ_NO_FLAGS, MSG_DATA_LENGTH);
+
     while(1)
     {
+        //
+        // Poll RxOk bit in CAN_ES register to check completion of Reception
+        //
+        if(((HWREGH(CANA_BASE + CAN_O_ES) & CAN_ES_RXOK)) == CAN_ES_RXOK)
+        {
+            //
+            // Get the received message
+            //
+            CAN_readMessage(CANA_BASE, RX_MSG_OBJ_ID, rxMsgData);
+            new_can_rx_data = 1;
+            rxMsgCount++;
+        }
 //        GpioDataRegs.GPBTOGGLE.bit.GPIO34 = 1;
 //        DEVICE_DELAY_US(1000000);
     }

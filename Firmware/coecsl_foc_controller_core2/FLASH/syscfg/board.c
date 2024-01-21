@@ -47,6 +47,8 @@ void Board_init()
 {
 	EALLOW;
 
+	MEMCFG_init();
+	CAN_init();
 	I2C_init();
 	IPC_SYSCFG_init();
 	SCI_init();
@@ -55,6 +57,29 @@ void Board_init()
 	EDIS;
 }
 
+
+//*****************************************************************************
+//
+// CAN Configurations
+//
+//*****************************************************************************
+void CAN_init(){
+	myCAN0_init();
+}
+
+void myCAN0_init(){
+	CAN_initModule(myCAN0_BASE);
+	//
+	// Refer to the Driver Library User Guide for information on how to set
+	// tighter timing control. Additionally, consult the device data sheet
+	// for more information about the CAN module clocking.
+	//
+	CAN_setBitTiming(myCAN0_BASE, 7, 0, 15, 7, 3);
+	//
+	// Start CAN module operations
+	//
+	CAN_startModule(myCAN0_BASE);
+}
 
 //*****************************************************************************
 //
@@ -106,6 +131,52 @@ void INTERRUPT_init(){
 //*****************************************************************************
 void IPC_SYSCFG_init(){
 }
+//*****************************************************************************
+//
+// MEMCFG Configurations
+//
+//*****************************************************************************
+void MEMCFG_init(){
+	//
+	// Initialize RAMs
+	//
+	//
+	// Configure LSRAMs
+	//
+	MemCfg_setLSRAMControllerSel(MEMCFG_SECT_LS0, MEMCFG_LSRAMCONTROLLER_CPU_ONLY);
+	MemCfg_setLSRAMControllerSel(MEMCFG_SECT_LS1, MEMCFG_LSRAMCONTROLLER_CPU_ONLY);
+	MemCfg_setLSRAMControllerSel(MEMCFG_SECT_LS2, MEMCFG_LSRAMCONTROLLER_CPU_ONLY);
+	MemCfg_setLSRAMControllerSel(MEMCFG_SECT_LS3, MEMCFG_LSRAMCONTROLLER_CPU_ONLY);
+	MemCfg_setLSRAMControllerSel(MEMCFG_SECT_LS4, MEMCFG_LSRAMCONTROLLER_CPU_ONLY);
+	MemCfg_setLSRAMControllerSel(MEMCFG_SECT_LS5, MEMCFG_LSRAMCONTROLLER_CPU_ONLY);
+	//
+	// ROM Access Configuration
+	//
+	MemCfg_enableROMWaitState();
+	MemCfg_disableROMPrefetch();
+	//
+	// Configure Access Protection for RAMs
+	//
+	MemCfg_setProtection(MEMCFG_SECT_D0, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_D1, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_LS0, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_LS1, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_LS2, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_LS3, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_LS4, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	MemCfg_setProtection(MEMCFG_SECT_LS5, MEMCFG_PROT_ALLOWCPUFETCH | MEMCFG_PROT_ALLOWCPUWRITE);
+	//
+	// Lock/Commit Registers
+	//
+	//
+	// Enable Access Violation Interrupt
+	//
+	//
+	// Correctable error Interrupt
+	//
+	MemCfg_setCorrErrorThreshold(0);
+	MemCfg_disableCorrErrorInterrupt(MEMCFG_CERR_CPUREAD);
+}        
 //*****************************************************************************
 //
 // SCI Configurations

@@ -56,80 +56,125 @@
 #include "device.h"
 #include "board.h"
 #include "F28x_Project.h"
-#include "structs.h"
+#include "position_sensor.h"
 #include "user_config.h"
 #include "hw_config.h"
 #include "math_ops.h"
 
 extern int cla_count;
 
-extern uint16_t enc_pos;
-
 extern EncoderStruct comm_encoder;
 
-int motor_zero, encoder_cpr, encoder_zero;
+extern uint16_t enc_pos;
+//// Length of FIR filter. Order = LEN - 1.
+//#define FIR_LEN 32
+//
+//// The filter coefficients below were generated using the MATLAB FDATool
+//// with the following parameters:
+//// Design Method = FIR Equiripple
+//// Type          = Lowpass
+//// Order         = Minimum Order
+//// Fs            = 8000
+//// Fpass         = 1000
+//// Fstop         = 1500
+//// Apass         = 1dB
+//// Astop         = 60dB
+//const float coeffs[FIR_LEN]= {
+//    -0.0006103139426196,-0.005592184655005,-0.01292485322836 ,-0.01926532895538,
+//    -0.01762908502044  ,-0.004303218458627, 0.01563724674838 , 0.02815885544785,
+//     0.01902562195175  ,-0.01290472511163 ,-0.04827630093442 ,-0.0545188692635,
+//    -0.006464860729499 , 0.09270744275212 , 0.2064249836238  , 0.2822241125204,
+//     0.2822241125204   , 0.2064249836238  , 0.09270744275212 ,-0.006464860729499,
+//    -0.0545188692635   ,-0.04827630093442 ,-0.01290472511163 , 0.01902562195175,
+//     0.02815885544785  , 0.01563724674838 ,-0.004303218458627,-0.01762908502044,
+//    -0.01926532895538  ,-0.01292485322836 ,-0.005592184655005,-0.0006103139426196
+//};
+//
+//// Filter delay line.
+//float delay[FIR_LEN];
 
-__attribute__((interrupt)) void Cla1Task1(void)
+// FIR LP filter task.
+
+__interrupt void Cla1Task1(void)
 {
+    GpioDataRegs.GPASET.bit.GPIO22 = 1;
+    /* updates EncoderStruct encoder with the latest sample
+    * after elapsed time dt */
+    EncoderStruct* encoder = &comm_encoder;
+    /* Shift around previous samples */
+    encoder->old_angle = encoder->angle_singleturn;
+//    int i;
+//    for(i = 20-1; i>0; i--){encoder->angle_multiturn[i] = encoder->angle_multiturn[i-1];}
+    encoder->angle_multiturn[19] = encoder->angle_multiturn[18];
+    encoder->angle_multiturn[18] = encoder->angle_multiturn[17];
+    encoder->angle_multiturn[17] = encoder->angle_multiturn[16];
+    encoder->angle_multiturn[16] = encoder->angle_multiturn[15];
+    encoder->angle_multiturn[15] = encoder->angle_multiturn[14];
+    encoder->angle_multiturn[14] = encoder->angle_multiturn[13];
+    encoder->angle_multiturn[13] = encoder->angle_multiturn[12];
+    encoder->angle_multiturn[12] = encoder->angle_multiturn[11];
+    encoder->angle_multiturn[11] = encoder->angle_multiturn[10];
+    encoder->angle_multiturn[10] = encoder->angle_multiturn[9];
+    encoder->angle_multiturn[9] = encoder->angle_multiturn[8];
+    encoder->angle_multiturn[8] = encoder->angle_multiturn[7];
+    encoder->angle_multiturn[7] = encoder->angle_multiturn[6];
+    encoder->angle_multiturn[6] = encoder->angle_multiturn[5];
+    encoder->angle_multiturn[5] = encoder->angle_multiturn[4];
+    encoder->angle_multiturn[4] = encoder->angle_multiturn[3];
+    encoder->angle_multiturn[3] = encoder->angle_multiturn[2];
+    encoder->angle_multiturn[2] = encoder->angle_multiturn[1];
+    encoder->angle_multiturn[1] = encoder->angle_multiturn[0];
+
+
+    /* SPI read/write */
     SpiaRegs.SPITXBUF = 0xFFFF;
-   // Wait for SPIA to finish transmitting and receiving
-   while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
-   // Read the received data from SPIA
-   enc_pos = SpiaRegs.SPIRXBUF & 0x3FFF;
+    // Wait for SPIA to finish transmitting and receiving
+    while(SpiaRegs.SPIFFRX.bit.RXFFST !=1) { }
+    // Read the received data from SPIA
+    enc_pos = SpiaRegs.SPIRXBUF & 0x3FFF;
+    encoder->raw =  enc_pos;
 
-   // take care of encoder multiturn and velocity calculations here ============================================
+//
+//    /* Linearization */
+//    int off_1 = encoder->offset_lut[(encoder->raw)>>9];             // lookup table lower entry
+//    int off_2 = encoder->offset_lut[((encoder->raw>>9)+1)%128];     // lookup table higher entry
+//    int off_interp = off_1 + ((off_2 - off_1)*(encoder->raw - ((encoder->raw>>9)<<9))>>9);     // Interpolate between lookup table entries
+    encoder->count = encoder->raw;// + off_interp;
 
-     /* updates EncoderStruct encoder with the latest sample
-      * after elapsed time dt */
-     EncoderStruct* encoder = &comm_encoder;
-     float dt = 0.000025;
-
-     /* Shift around previous samples */
-     encoder->old_angle = encoder->angle_singleturn;
-     int i;
-     for(i = N_POS_SAMPLES-1; i>0; i--){encoder->angle_multiturn[i] = encoder->angle_multiturn[i-1];}
-
-     /* SPI read/write */
-     encoder->raw =  enc_pos;
-
-//     /* Linearization */
-//     int off_1 = encoder->offset_lut[(encoder->raw)>>9];             // lookup table lower entry
-//     int off_2 = encoder->offset_lut[((encoder->raw>>9)+1)%128];     // lookup table higher entry
-//     int off_interp = off_1 + ((off_2 - off_1)*(encoder->raw - ((encoder->raw>>9)<<9))>>9);     // Interpolate between lookup table entries
-     encoder->count = encoder->raw; // + off_interp;
+    // separate from here down
+    /* Real angles in radians */
+    encoder->angle_singleturn = ((float)(encoder->count-M_ZERO))/((float)ENC_CPR);
+    int32_t int_angle = encoder->angle_singleturn;
+    encoder->angle_singleturn = TWO_PI_F*(encoder->angle_singleturn - (float)int_angle);
+    encoder->angle_singleturn = encoder->angle_singleturn<0 ? encoder->angle_singleturn + TWO_PI_F : encoder->angle_singleturn;
 
 
-     /* Real angles in radians */
-     encoder->angle_singleturn = ((float)(encoder->count-motor_zero))/((float)encoder_cpr);
-     int int_angle = encoder->angle_singleturn;
-     encoder->angle_singleturn = TWO_PI_F*(encoder->angle_singleturn - (float)int_angle);
-     encoder->angle_singleturn = encoder->angle_singleturn<0 ? encoder->angle_singleturn + TWO_PI_F : encoder->angle_singleturn;
 
-     encoder->elec_angle = (encoder->ppairs*(float)(encoder->count-encoder_zero))/((float)encoder_cpr);
-     int_angle = (int)encoder->elec_angle;
-     encoder->elec_angle = TWO_PI_F*(encoder->elec_angle - (float)int_angle);
-     //encoder->elec_angle = TWO_PI_F*fmodf((encoder->ppairs*(float)(encoder->count-E_ZERO))/((float)ENC_CPR), 1.0f);
-     encoder->elec_angle = encoder->elec_angle<0 ? encoder->elec_angle + TWO_PI_F : encoder->elec_angle; // Add 2*pi to negative numbers
-     /* Rollover */
-     int rollover = 0;
-     float angle_diff = encoder->angle_singleturn - encoder->old_angle;
-     if(angle_diff > PI_F){rollover = -1;}
-     else if(angle_diff < -PI_F){rollover = 1;}
-     encoder->turns += rollover;
-     if(!encoder->first_sample){
-         encoder->turns = 0;
-         encoder->first_sample = 1;
-     }
+    encoder->elec_angle = (encoder->ppairs*(float)(encoder->count-E_ZERO))/((float)ENC_CPR);
+    int_angle = (int)encoder->elec_angle;
+    encoder->elec_angle = TWO_PI_F*(encoder->elec_angle - (float)int_angle);
+    encoder->elec_angle = encoder->elec_angle<0 ? encoder->elec_angle + TWO_PI_F : encoder->elec_angle; // Add 2*pi to negative numbers
+    /* Rollover */
+    int rollover = 0;
+    float angle_diff = encoder->angle_singleturn - encoder->old_angle;
+    if(angle_diff > PI_F){rollover = -1;}
+    else if(angle_diff < -PI_F){rollover = 1;}
+    encoder->turns += rollover;
+    if(!encoder->first_sample){
+      encoder->turns = 0;
+      encoder->first_sample = 1;
+    }
 
-     /* Multi-turn position */
-     encoder->angle_multiturn[0] = encoder->angle_singleturn + TWO_PI_F*(float)encoder->turns;
+    /* Multi-turn position */
+    encoder->angle_multiturn[0] = encoder->angle_singleturn + TWO_PI_F*(float)encoder->turns;
 
-     encoder->velocity = (encoder->angle_multiturn[0] - encoder->angle_multiturn[N_POS_SAMPLES-1])/(dt*(float)(N_POS_SAMPLES-1));
-     encoder->elec_velocity = encoder->ppairs*encoder->velocity;
-
-   // end encoder multiturn and velocity calculations here =====================================================
-
+    /* Velocity */
+    float dt = .000025;
+    encoder->velocity = (encoder->angle_multiturn[0] - encoder->angle_multiturn[N_POS_SAMPLES-1])/(dt*(float)(N_POS_SAMPLES-1));
+    encoder->elec_velocity = encoder->ppairs*encoder->velocity;
+//
     cla_count++;
+    GpioDataRegs.GPACLEAR.bit.GPIO22 = 1;
 
 }
 

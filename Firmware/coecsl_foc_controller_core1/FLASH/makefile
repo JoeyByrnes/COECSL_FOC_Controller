@@ -10,11 +10,21 @@ GEN_OPTS__FLAG := --cmd_file="syscfg/board.opt" --cmd_file="syscfg/c2000ware_lib
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./Fapi_UserDefinedFunctions.obj" \
+"./calibration.obj" \
+"./can.obj" \
 "./cla_tasks.obj" \
 "./drv8323.obj" \
 "./syscfg/board.obj" \
 "./syscfg/c2000ware_libraries.obj" \
+"./flash_if.obj" \
+"./flash_writer.obj" \
+"./foc.obj" \
+"./fsm.obj" \
 "./main_cpu1.obj" \
+"./math_ops.obj" \
+"./position_sensor.obj" \
+"./preference_writer.obj" \
 "./device/F2837xD_CodeStartBranch.obj" \
 "./device/device.obj" \
 "./driver_files/F28379dSerial.obj" \
@@ -30,6 +40,7 @@ ORDERED_OBJS += \
 "./driver_files/F2837xD_SysCtrl.obj" \
 "./driver_files/F2837xD_usDelay.obj" \
 "../2837xD_FLASH_CLA_lnk_cpu1.cmd" \
+"../F021_API_F2837xD_FPU32_EABI.lib" \
 "C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/ccs/Debug/driverlib.lib" \
 "../driver_files/F2837xD_Headers_nonBIOS_cpu1.cmd" \
 $(GEN_CMDS__FLAG) \
@@ -158,15 +169,15 @@ all: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 coecsl_foc_controller_core1.out: $(OBJS) $(CMD_SRCS) $(LIB_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: C2000 Linker'
-	"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 -O3 --opt_for_speed=5 --fp_mode=relaxed --define=CLA_C --define=_LAUNCHXL_F28379D --define=_FLASH --define=CPU1 --diag_suppress=10063 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"coecsl_foc_controller_core1.map" --stack_size=0x100 --warn_sections -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/lib" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include" --reread_libs --define=CLA_C --diag_wrap=off --display_error_number --xml_link_info="coecsl_foc_controller_core1_linkInfo.xml" --entry_point=code_start --rom_model -o "coecsl_foc_controller_core1.out" $(ORDERED_OBJS)
+	"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/bin/cl2000" -v28 -ml -mt --cla_support=cla1 --float_support=fpu32 --tmu_support=tmu0 --vcu_support=vcu2 -O3 --opt_for_speed=5 --fp_mode=relaxed --advice:performance=all --define=CLA_C --define=_LAUNCHXL_F28379D --define=_FLASH --define=CPU1 -g --diag_suppress=10063 --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi --cla_signed_compare_workaround=on -z -m"coecsl_foc_controller_core1.map" --stack_size=0x100 --warn_sections -i"C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/lib" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/lib" -i"C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include" --reread_libs --define=CLA_C --diag_wrap=off --display_error_number --xml_link_info="coecsl_foc_controller_core1_linkInfo.xml" --entry_point=code_start --rom_model -o "coecsl_foc_controller_core1.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "cla_tasks.obj" "drv8323.obj" "syscfg\board.obj" "syscfg\c2000ware_libraries.obj" "main_cpu1.obj" "device\F2837xD_CodeStartBranch.obj" "device\device.obj" "driver_files\F28379dSerial.obj" "driver_files\F2837xD_Adc.obj" "driver_files\F2837xD_EPwm.obj" "driver_files\F2837xD_GlobalVariableDefs.obj" "driver_files\F2837xD_Gpio.obj" "driver_files\F2837xD_Ipc.obj" "driver_files\F2837xD_Ipc_Driver_Util.obj" "driver_files\F2837xD_PieCtrl.obj" "driver_files\F2837xD_PieVect.obj" "driver_files\F2837xD_Spi.obj" "driver_files\F2837xD_SysCtrl.obj" "driver_files\F2837xD_usDelay.obj" 
-	-$(RM) "drv8323.d" "syscfg\board.d" "syscfg\c2000ware_libraries.d" "main_cpu1.d" "device\device.d" "driver_files\F28379dSerial.d" "driver_files\F2837xD_Adc.d" "driver_files\F2837xD_EPwm.d" "driver_files\F2837xD_GlobalVariableDefs.d" "driver_files\F2837xD_Gpio.d" "driver_files\F2837xD_Ipc.d" "driver_files\F2837xD_Ipc_Driver_Util.d" "driver_files\F2837xD_PieCtrl.d" "driver_files\F2837xD_PieVect.d" "driver_files\F2837xD_Spi.d" "driver_files\F2837xD_SysCtrl.d" 
+	-$(RM) "Fapi_UserDefinedFunctions.obj" "calibration.obj" "can.obj" "cla_tasks.obj" "drv8323.obj" "syscfg\board.obj" "syscfg\c2000ware_libraries.obj" "flash_if.obj" "flash_writer.obj" "foc.obj" "fsm.obj" "main_cpu1.obj" "math_ops.obj" "position_sensor.obj" "preference_writer.obj" "device\F2837xD_CodeStartBranch.obj" "device\device.obj" "driver_files\F28379dSerial.obj" "driver_files\F2837xD_Adc.obj" "driver_files\F2837xD_EPwm.obj" "driver_files\F2837xD_GlobalVariableDefs.obj" "driver_files\F2837xD_Gpio.obj" "driver_files\F2837xD_Ipc.obj" "driver_files\F2837xD_Ipc_Driver_Util.obj" "driver_files\F2837xD_PieCtrl.obj" "driver_files\F2837xD_PieVect.obj" "driver_files\F2837xD_Spi.obj" "driver_files\F2837xD_SysCtrl.obj" "driver_files\F2837xD_usDelay.obj" 
+	-$(RM) "Fapi_UserDefinedFunctions.d" "calibration.d" "can.d" "drv8323.d" "syscfg\board.d" "syscfg\c2000ware_libraries.d" "flash_if.d" "flash_writer.d" "foc.d" "fsm.d" "main_cpu1.d" "math_ops.d" "position_sensor.d" "preference_writer.d" "device\device.d" "driver_files\F28379dSerial.d" "driver_files\F2837xD_Adc.d" "driver_files\F2837xD_EPwm.d" "driver_files\F2837xD_GlobalVariableDefs.d" "driver_files\F2837xD_Gpio.d" "driver_files\F2837xD_Ipc.d" "driver_files\F2837xD_Ipc_Driver_Util.d" "driver_files\F2837xD_PieCtrl.d" "driver_files\F2837xD_PieVect.d" "driver_files\F2837xD_Spi.d" "driver_files\F2837xD_SysCtrl.d" 
 	-$(RM) "cla_tasks.d" 
 	-$(RM) "device\F2837xD_CodeStartBranch.d" "driver_files\F2837xD_usDelay.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)

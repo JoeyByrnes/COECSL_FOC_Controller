@@ -57,7 +57,7 @@
 // CPU2CLK					= 200 MHz 
 // CPU1_SYSCLK				= 200 MHz
 // CPU2_SYSCLK 				= 200 MHz
-// LSPCLK					= 200 MHz 
+// LSPCLK					= 100 MHz 
 // EPWMCLK 					= 100 MHz	
 	
 //*****************************************************************************
@@ -81,11 +81,11 @@
 
 //
 // Define to pass to SysCtl_setLowSpeedClock().
-// Low Speed Clock (LSPCLK) = 200 MHz / 1 = 200 MHz
+// Low Speed Clock (LSPCLK) = 200 MHz / 2 = 100 MHz
 //
-#define DEVICE_LSPCLK_CFG  			SYSCTL_LSPCLK_PRESCALE_1
+#define DEVICE_LSPCLK_CFG  			SYSCTL_LSPCLK_PRESCALE_2
 
-#define DEVICE_LSPCLK_FREQ          (DEVICE_SYSCLK_FREQ / 1)
+#define DEVICE_LSPCLK_FREQ          (DEVICE_SYSCLK_FREQ / 2)
 
 
 //*****************************************************************************
@@ -198,7 +198,7 @@
 //	
 //*****************************************************************************
 //
-// Gated LSPCLK Domain (200 MHz) 
+// Gated LSPCLK Domain (100 MHz) 
 //
 //*****************************************************************************
 // SCI

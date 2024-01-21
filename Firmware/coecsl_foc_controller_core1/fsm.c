@@ -16,6 +16,7 @@
 #include "math_ops.h"
 #include "position_sensor.h"
 #include "drv8323.h"
+#include "flash_if.h"
 
  void run_fsm(FSMStruct * fsmstate){
 	 /* run_fsm is run every commutation interrupt cycle */
@@ -47,11 +48,14 @@
 				 printf("E_ZERO: %d  %f\r\n", E_ZERO, TWO_PI_F*fmodf((comm_encoder.ppairs*(float)(-E_ZERO))/((float)ENC_CPR), 1.0f));
 				 memcpy(&comm_encoder.offset_lut, comm_encoder_cal.lut_arr, sizeof(comm_encoder.offset_lut));
 				 memcpy(&ENCODER_LUT, comm_encoder_cal.lut_arr, sizeof(comm_encoder_cal.lut_arr));
-				 //for(int i = 0; i<128; i++){printf("%d\r\n", ENCODER_LUT[i]);}
+				 int i;
+//				 for(i = 0; i<128; i++){printf("%d\r\n", ENCODER_LUT[i]);}
 //				 if (!preference_writer_ready(prefs)){ preference_writer_open(&prefs);}
 //				 preference_writer_flush(&prefs);
 //				 preference_writer_close(&prefs);
 //				 preference_writer_load(prefs);
+				 writeConfigToFlash();
+
 				 update_fsm(fsmstate, 27);
 			 }
 
@@ -219,6 +223,8 @@
 //					preference_writer_flush(&prefs);
 //					preference_writer_close(&prefs);
 //					preference_writer_load(prefs);
+					writeConfigToFlash();
+
 					printf("\n\r  Saved new zero position:  %d\n\r\n\r", M_ZERO);
 					break;
 				}
@@ -366,6 +372,7 @@
 //	 preference_writer_flush(&prefs);
 //	 preference_writer_close(&prefs);
 //	 preference_writer_load(prefs);
+	 writeConfigToFlash();
 
 	 enter_setup_state();
 

@@ -22,13 +22,8 @@ main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cpu.
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/debug.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_can.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h
-main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h
+main_cpu1.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h
+main_cpu1.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cla.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/clb.h
@@ -37,6 +32,11 @@ main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cmps
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cmpss.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cputimer.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cputimer.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dac.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_dac.h
 main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dcsm.h
@@ -152,8 +152,28 @@ main_cpu1.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/
 main_cpu1.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/math.h
 main_cpu1.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/_defs.h
 main_cpu1.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/machine/_limits.h
-main_cpu1.obj: C:/Users/joeyb/workspace_v12_CC/coecsl_foc_controller_core1/shared.h
+main_cpu1.obj: C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/shared.h
 main_cpu1.obj: ../drv8323.h
+main_cpu1.obj: ../structs.h
+main_cpu1.obj: ../position_sensor.h
+main_cpu1.obj: ../fsm.h
+main_cpu1.obj: ../foc.h
+main_cpu1.obj: ../calibration.h
+main_cpu1.obj: ../user_config.h
+main_cpu1.obj: ../hw_config.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/F021_F2837xD_C28x.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/F021.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Registers.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Types.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Registers_C28x.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Init.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Helpers.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Constants/Constants.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Constants/F2837xD.h
+main_cpu1.obj: ../flash_defines.h
+main_cpu1.obj: ../flash_if.h
+main_cpu1.obj: C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/device.h
+main_cpu1.obj: C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/stdlib.h
 
 ../main_cpu1.c:
 
@@ -199,19 +219,9 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/asysctl.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_asysctl.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/can.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/can.h:
 
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_can.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h:
-
-C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/main.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cla.h:
 
@@ -228,6 +238,16 @@ C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cmpss.h:
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/cputimer.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_cputimer.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/sysctl.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_nmi.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/interrupt.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_ints.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/inc/hw_pie.h:
 
 C:/ti/c2000/C2000Ware_5_00_00_00/driverlib/f2837xd/driverlib/dac.h:
 
@@ -459,7 +479,47 @@ C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/_defs.h:
 
 C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/machine/_limits.h:
 
-C:/Users/joeyb/workspace_v12_CC/coecsl_foc_controller_core1/shared.h:
+C:/Users/joeyb/Documents/Github/Joey/COECSL_FOC_Controller/Firmware/coecsl_foc_controller_core1/shared.h:
 
 ../drv8323.h:
+
+../structs.h:
+
+../position_sensor.h:
+
+../fsm.h:
+
+../foc.h:
+
+../calibration.h:
+
+../user_config.h:
+
+../hw_config.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/F021_F2837xD_C28x.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/F021.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Registers.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Types.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Registers_C28x.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Init.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Helpers.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Constants/Constants.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/libraries/flash_api/f2837xd/include/Constants/F2837xD.h:
+
+../flash_defines.h:
+
+../flash_if.h:
+
+C:/ti/c2000/C2000Ware_5_00_00_00/device_support/f2837xd/common/include/device.h:
+
+C:/ti/ccs1210/ccs/tools/compiler/ti-cgt-c2000_22.6.0.LTS/include/stdlib.h:
 

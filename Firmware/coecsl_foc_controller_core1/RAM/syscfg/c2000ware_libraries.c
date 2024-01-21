@@ -36,11 +36,5 @@
 
 void C2000Ware_libraries_init()
 {
-    FFR_init();
-}
-
-void FFR_init()
-{
-
 }
 

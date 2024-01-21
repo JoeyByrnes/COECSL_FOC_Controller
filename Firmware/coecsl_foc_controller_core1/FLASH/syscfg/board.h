@@ -186,6 +186,54 @@ extern "C"
 #define mySPI1_SPIPTE_GPIO 66
 #define mySPI1_SPIPTE_PIN_CONFIG GPIO_66_SPISTEB
 
+//
+// CANA -> myCAN0 Pinmux
+//
+//
+// CANRXA - GPIO Settings
+//
+#define GPIO_PIN_CANRXA 70
+#define myCAN0_CANRX_GPIO 70
+#define myCAN0_CANRX_PIN_CONFIG GPIO_70_CANRXA
+//
+// CANTXA - GPIO Settings
+//
+#define GPIO_PIN_CANTXA 71
+#define myCAN0_CANTX_GPIO 71
+#define myCAN0_CANTX_PIN_CONFIG GPIO_71_CANTXA
+
+//
+// I2CA -> myI2C0 Pinmux
+//
+//
+// SDAA - GPIO Settings
+//
+#define GPIO_PIN_SDAA 104
+#define myI2C0_I2CSDA_GPIO 104
+#define myI2C0_I2CSDA_PIN_CONFIG GPIO_104_SDAA
+//
+// SCLA - GPIO Settings
+//
+#define GPIO_PIN_SCLA 105
+#define myI2C0_I2CSCL_GPIO 105
+#define myI2C0_I2CSCL_PIN_CONFIG GPIO_105_SCLA
+
+//
+// SCIA -> debuggerSerial Pinmux
+//
+//
+// SCIRXDA - GPIO Settings
+//
+#define GPIO_PIN_SCIRXDA 43
+#define debuggerSerial_SCIRX_GPIO 43
+#define debuggerSerial_SCIRX_PIN_CONFIG GPIO_43_SCIRXDA
+//
+// SCITXDA - GPIO Settings
+//
+#define GPIO_PIN_SCITXDA 42
+#define debuggerSerial_SCITX_GPIO 42
+#define debuggerSerial_SCITX_PIN_CONFIG GPIO_42_SCITXDA
+
 //*****************************************************************************
 //
 // ADC Configurations
@@ -217,6 +265,15 @@ void myADC1_init();
 #define myADC2_TRIGGER_SOURCE_SOC0 ADC_TRIGGER_EPWM1_SOCA
 #define myADC2_CHANNEL_SOC0 ADC_CH_ADCIN4
 void myADC2_init();
+
+#define myADC3_BASE ADCD_BASE
+#define myADC3_RESULT_BASE ADCDRESULT_BASE
+#define myADC3_SOC0 ADC_SOC_NUMBER0
+#define myADC3_FORCE_SOC0 ADC_FORCE_SOC0
+#define myADC3_SAMPLE_WINDOW_SOC0 80
+#define myADC3_TRIGGER_SOURCE_SOC0 ADC_TRIGGER_EPWM1_SOCA
+#define myADC3_CHANNEL_SOC0 ADC_CH_ADCIN0
+void myADC3_init();
 
 
 //*****************************************************************************
@@ -266,7 +323,7 @@ void myCLA0_init();
 #define PHASE_B_TBPHS 2497
 #define PHASE_B_CMPA 0
 #define PHASE_B_CMPB 0
-#define PHASE_B_CMPC 2300
+#define PHASE_B_CMPC 2000
 #define PHASE_B_CMPD 2495
 #define PHASE_B_DBRED 0
 #define PHASE_B_DBFED 0
@@ -331,16 +388,6 @@ extern __interrupt void cla1Isr1(void);
 #define INT_myADC0_1_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP1
 extern __interrupt void INT_myADC0_1_ISR(void);
 
-// Interrupt Settings for INT_PHASE_A
-#define INT_PHASE_A INT_EPWM1
-#define INT_PHASE_A_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP3
-extern __interrupt void PWM_ISR(void);
-
-// Interrupt Settings for INT_PHASE_B
-#define INT_PHASE_B INT_EPWM2
-#define INT_PHASE_B_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP3
-extern __interrupt void INT_PHASE_B_ISR(void);
-
 // Interrupt Settings for IPC_1
 #define IPC_1 INT_IPC_1
 #define IPC_1_INTERRUPT_ACK_GROUP INTERRUPT_ACK_GROUP1
@@ -352,6 +399,8 @@ extern __interrupt void ipc1_ISR(void);
 //
 //*****************************************************************************
 #define CPU1_to_CPU2_IPC_FLAG0 IPC_FLAG0
+#define IPC_SYNC IPC_FLAG31
+#define CPU2_to_CPU1_IPC_FLAG1 IPC_FLAG1
 #define IPC_SYNC IPC_FLAG31
 #define BOOT_MODE_CPU2 C1C2_BROM_BOOTMODE_BOOT_FROM_FLASH
 
@@ -367,7 +416,7 @@ extern __interrupt void ipc1_ISR(void);
 //
 //*****************************************************************************
 #define mySPI0_BASE SPIA_BASE
-#define mySPI0_BITRATE 20000000
+#define mySPI0_BITRATE 12000000
 void mySPI0_init();
 #define mySPI1_BASE SPIB_BASE
 #define mySPI1_BITRATE 2500000

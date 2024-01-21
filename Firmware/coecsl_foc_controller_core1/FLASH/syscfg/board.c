@@ -158,6 +158,43 @@ void PinMux_init()
 	GPIO_setPadConfig(mySPI1_SPIPTE_GPIO, GPIO_PIN_TYPE_STD);
 	GPIO_setQualificationMode(mySPI1_SPIPTE_GPIO, GPIO_QUAL_ASYNC);
 
+	//
+	// PinMux for modules assigned to CPU2
+	//
+	
+	//
+	// CANA -> myCAN0 Pinmux
+	//
+	GPIO_setPinConfig(myCAN0_CANRX_PIN_CONFIG);
+	GPIO_setPadConfig(myCAN0_CANRX_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(myCAN0_CANRX_GPIO, GPIO_QUAL_ASYNC);
+
+	GPIO_setPinConfig(myCAN0_CANTX_PIN_CONFIG);
+	GPIO_setPadConfig(myCAN0_CANTX_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(myCAN0_CANTX_GPIO, GPIO_QUAL_ASYNC);
+
+	//
+	// I2CA -> myI2C0 Pinmux
+	//
+	GPIO_setPinConfig(myI2C0_I2CSDA_PIN_CONFIG);
+	GPIO_setPadConfig(myI2C0_I2CSDA_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(myI2C0_I2CSDA_GPIO, GPIO_QUAL_ASYNC);
+
+	GPIO_setPinConfig(myI2C0_I2CSCL_PIN_CONFIG);
+	GPIO_setPadConfig(myI2C0_I2CSCL_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(myI2C0_I2CSCL_GPIO, GPIO_QUAL_ASYNC);
+
+	//
+	// SCIA -> debuggerSerial Pinmux
+	//
+	GPIO_setPinConfig(debuggerSerial_SCIRX_PIN_CONFIG);
+	GPIO_setPadConfig(debuggerSerial_SCIRX_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(debuggerSerial_SCIRX_GPIO, GPIO_QUAL_ASYNC);
+
+	GPIO_setPinConfig(debuggerSerial_SCITX_PIN_CONFIG);
+	GPIO_setPadConfig(debuggerSerial_SCITX_GPIO, GPIO_PIN_TYPE_STD | GPIO_PIN_TYPE_PULLUP);
+	GPIO_setQualificationMode(debuggerSerial_SCITX_GPIO, GPIO_QUAL_ASYNC);
+
 
 }
 
@@ -170,6 +207,7 @@ void ADC_init(){
 	myADC0_init();
 	myADC1_init();
 	myADC2_init();
+	myADC3_init();
 }
 
 void myADC0_init(){
@@ -324,6 +362,53 @@ void myADC2_init(){
 	ADC_setupSOC(myADC2_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM1_SOCA, ADC_CH_ADCIN4, 16U);
 	ADC_setInterruptSOCTrigger(myADC2_BASE, ADC_SOC_NUMBER0, ADC_INT_SOC_TRIGGER_NONE);
 }
+void myADC3_init(){
+	//
+	// ADC Initialization: Write ADC configurations and power up the ADC
+	//
+	// Configures the analog-to-digital converter module prescaler.
+	//
+	ADC_setPrescaler(myADC3_BASE, ADC_CLK_DIV_4_0);
+	//
+	// Configures the analog-to-digital converter resolution and signal mode.
+	//
+	ADC_setMode(myADC3_BASE, ADC_RESOLUTION_12BIT, ADC_MODE_SINGLE_ENDED);
+	//
+	// Sets the timing of the end-of-conversion pulse
+	//
+	ADC_setInterruptPulseMode(myADC3_BASE, ADC_PULSE_END_OF_ACQ_WIN);
+	//
+	// Powers up the analog-to-digital converter core.
+	//
+	ADC_enableConverter(myADC3_BASE);
+	//
+	// Delay for 1ms to allow ADC time to power up
+	//
+	DEVICE_DELAY_US(500);
+	//
+	// SOC Configuration: Setup ADC EPWM channel and trigger settings
+	//
+	// Disables SOC burst mode.
+	//
+	ADC_disableBurstMode(myADC3_BASE);
+	//
+	// Sets the priority mode of the SOCs.
+	//
+	ADC_setSOCPriority(myADC3_BASE, ADC_PRI_ALL_ROUND_ROBIN);
+	//
+	// Start of Conversion 0 Configuration
+	//
+	//
+	// Configures a start-of-conversion (SOC) in the ADC and its interrupt SOC trigger.
+	// 	  	SOC number		: 0
+	//	  	Trigger			: ADC_TRIGGER_EPWM1_SOCA
+	//	  	Channel			: ADC_CH_ADCIN0
+	//	 	Sample Window	: 16 SYSCLK cycles
+	//		Interrupt Trigger: ADC_INT_SOC_TRIGGER_NONE
+	//
+	ADC_setupSOC(myADC3_BASE, ADC_SOC_NUMBER0, ADC_TRIGGER_EPWM1_SOCA, ADC_CH_ADCIN0, 16U);
+	ADC_setInterruptSOCTrigger(myADC3_BASE, ADC_SOC_NUMBER0, ADC_INT_SOC_TRIGGER_NONE);
+}
 
 
 //*****************************************************************************
@@ -469,7 +554,7 @@ void EPWM_init(){
     EPWM_setCounterCompareShadowLoadMode(PHASE_B_BASE, EPWM_COUNTER_COMPARE_A, EPWM_COMP_LOAD_ON_CNTR_ZERO);	
     EPWM_setCounterCompareValue(PHASE_B_BASE, EPWM_COUNTER_COMPARE_B, 0);	
     EPWM_setCounterCompareShadowLoadMode(PHASE_B_BASE, EPWM_COUNTER_COMPARE_B, EPWM_COMP_LOAD_ON_CNTR_ZERO);	
-    EPWM_setCounterCompareValue(PHASE_B_BASE, EPWM_COUNTER_COMPARE_C, 2300);	
+    EPWM_setCounterCompareValue(PHASE_B_BASE, EPWM_COUNTER_COMPARE_C, 2000);	
     EPWM_setCounterCompareValue(PHASE_B_BASE, EPWM_COUNTER_COMPARE_D, 2495);	
     EPWM_setActionQualifierAction(PHASE_B_BASE, EPWM_AQ_OUTPUT_A, EPWM_AQ_OUTPUT_HIGH, EPWM_AQ_OUTPUT_ON_TIMEBASE_ZERO);	
     EPWM_setActionQualifierAction(PHASE_B_BASE, EPWM_AQ_OUTPUT_A, EPWM_AQ_OUTPUT_NO_CHANGE, EPWM_AQ_OUTPUT_ON_TIMEBASE_PERIOD);	
@@ -657,14 +742,6 @@ void INTERRUPT_init(){
 	Interrupt_register(INT_myADC0_1, &INT_myADC0_1_ISR);
 	Interrupt_enable(INT_myADC0_1);
 	
-	// Interrupt Setings for INT_PHASE_A
-	Interrupt_register(INT_PHASE_A, &PWM_ISR);
-	Interrupt_enable(INT_PHASE_A);
-	
-	// Interrupt Setings for INT_PHASE_B
-	Interrupt_register(INT_PHASE_B, &INT_PHASE_B_ISR);
-	Interrupt_enable(INT_PHASE_B);
-	
 	// Interrupt Setings for IPC_1
 	Interrupt_register(IPC_1, &ipc1_ISR);
 	Interrupt_enable(IPC_1);
@@ -774,7 +851,7 @@ void SPI_init(){
 void mySPI0_init(){
 	SPI_disableModule(mySPI0_BASE);
 	SPI_setConfig(mySPI0_BASE, DEVICE_LSPCLK_FREQ, SPI_PROT_POL0PHA0,
-				  SPI_MODE_CONTROLLER, 20000000, 16);
+				  SPI_MODE_CONTROLLER, 12000000, 16);
 	SPI_setPTESignalPolarity(mySPI0_BASE, SPI_PTE_ACTIVE_LOW);
 	SPI_enableFIFO(mySPI0_BASE);
 	SPI_setFIFOInterruptLevel(mySPI0_BASE, SPI_FIFO_TXEMPTY, SPI_FIFO_RXEMPTY);

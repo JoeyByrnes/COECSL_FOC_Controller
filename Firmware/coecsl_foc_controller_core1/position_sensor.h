@@ -27,10 +27,10 @@ typedef struct{
 	};
 	float angle_singleturn, old_angle, angle_multiturn[N_POS_SAMPLES], elec_angle, velocity, elec_velocity, ppairs, vel2;
 	float output_angle_multiturn;
-	int raw, count, old_count, turns;
-	int count_buff[N_POS_SAMPLES];
-	int m_zero, e_zero;
-	int offset_lut[N_LUT];
+	int32_t raw, count, old_count, turns;
+	int32_t count_buff[N_POS_SAMPLES];
+	int32_t m_zero, e_zero;
+	int32_t offset_lut[N_LUT];
 	uint8_t first_sample;
 } EncoderStruct;
 

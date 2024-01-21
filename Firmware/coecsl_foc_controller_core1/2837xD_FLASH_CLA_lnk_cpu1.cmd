@@ -91,10 +91,10 @@ SECTIONS
    /* Allocate program areas: */
    .cinit              : > FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN PAGE = 0, ALIGN(8)
+                            FLASHK | FLASHL | FLASHM PAGE = 0, ALIGN(8)
    .text               : >> FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN PAGE = 0, ALIGN(8)
+                            FLASHK | FLASHL | FLASHM PAGE = 0, ALIGN(8)
    codestart           : > BEGIN       PAGE = 0, ALIGN(8)
    /* Allocate uninitalized data sections: */
    .stack              : > RAMD01       PAGE = 1
@@ -102,13 +102,13 @@ SECTIONS
    .my_vars			: > RAMGS015		PAGE = 1
    .switch             : > FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN PAGE = 0, ALIGN(8)
+                            FLASHK | FLASHL | FLASHM PAGE = 0, ALIGN(8)
    .reset              : > RESET,      PAGE = 0, TYPE = DSECT /* not used, */
 
 #if defined(__TI_EABI__)
    .init_array         : > FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,       PAGE = 0,       ALIGN(8)
+                            FLASHK | FLASHL | FLASHM,       PAGE = 0,       ALIGN(8)
    .bss                : > RAMGS015,       PAGE = 1
    .bss:output         : > RAMLS01,       PAGE = 0
    .bss:cio            : > RAMGS015,       PAGE = 1
@@ -117,25 +117,25 @@ SECTIONS
    /* Initalized sections go in Flash */
    .const              : > FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,       PAGE = 0,       ALIGN(8)
+                            FLASHK | FLASHL | FLASHM,       PAGE = 0,       ALIGN(8)
 #else
    .pinit              : > FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,       PAGE = 0,       ALIGN(8)
+                            FLASHK | FLASHL | FLASHM,       PAGE = 0,       ALIGN(8)
    .ebss               : >> RAMGS015,    PAGE = 1
    .esysmem            : > RAMGS015,       PAGE = 1
    .cio                : > RAMGS015,       PAGE = 1
    /* Initalized sections go in Flash */
    .econst             : >> FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN      PAGE = 0, ALIGN(8)
+                            FLASHK | FLASHL | FLASHM      PAGE = 0, ALIGN(8)
 #endif
 
     /* CLA specific sections */
     #if defined(__TI_EABI__)
     	Cla1Prog         : LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,
+                            FLASHK | FLASHL | FLASHM,
                       RUN = RAMLS35,
                       LOAD_START(Cla1funcsLoadStart),
                       LOAD_END(Cla1funcsLoadEnd),
@@ -145,7 +145,7 @@ SECTIONS
 	#else
 		Cla1Prog         : LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
 	                            FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-	                            FLASHK | FLASHL | FLASHM | FLASHN,
+	                            FLASHK | FLASHL | FLASHM,
 	                      RUN = RAMLS35,
 	                      LOAD_START(_Cla1funcsLoadStart),
 	                      LOAD_END(_Cla1funcsLoadEnd),
@@ -161,7 +161,13 @@ SECTIONS
    Cla1ToCpuMsgRAM  : > CLAToCPU_MSGRAM, PAGE = 1
    CpuToCla1MsgRAM  : > CPUToCLA_MSGRAM, PAGE = 1
 
+   Cpu1ToCpu2MsgRAM  : > RAMGS015, PAGE = 1
+   Cpu2ToCpu1MsgRAM  : > RAMGS015, PAGE = 1
+
    NvDataStorage  : > NV_DATA_STORAGE, PAGE = 1
+
+   /* Flash Programming Buffer */
+   BufferDataSection : > RAMD01, PAGE = 1, ALIGN(8)
 
 /*   Filter_RegsFile     : > RAMGS0,	   PAGE = 1
 
@@ -185,7 +191,7 @@ SECTIONS
         #if defined(__TI_EABI__)
             .TI.ramfunc : {} LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,
+                            FLASHK | FLASHL | FLASHM,
                                  RUN = RAMLS01,
                                  LOAD_START(RamfuncsLoadStart),
                                  LOAD_SIZE(RamfuncsLoadSize),
@@ -197,7 +203,7 @@ SECTIONS
         #else
             .TI.ramfunc : {} LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,
+                            FLASHK | FLASHL | FLASHM,
                              RUN = RAMLS01,
                              LOAD_START(_RamfuncsLoadStart),
                              LOAD_SIZE(_RamfuncsLoadSize),
@@ -210,7 +216,7 @@ SECTIONS
     #else
    ramfuncs            : LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
                             FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-                            FLASHK | FLASHL | FLASHM | FLASHN,
+                            FLASHK | FLASHL | FLASHM,
                          RUN = RAMLS01,
                          LOAD_START(_RamfuncsLoadStart),
                          LOAD_SIZE(_RamfuncsLoadSize),
@@ -261,7 +267,7 @@ SECTIONS
    #if defined(__TI_EABI__)
 	   .const_cla            :  LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
 	                            FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-	                            FLASHK | FLASHL | FLASHM | FLASHN,
+	                            FLASHK | FLASHL | FLASHM,
 	                       RUN = RAMLS2,
 	                       RUN_START(Cla1ConstRunStart),
 	                       LOAD_START(Cla1ConstLoadStart),
@@ -270,7 +276,7 @@ SECTIONS
    #else
 	  .const_cla            :  LOAD = FLASHA | FLASHB | FLASHC | FLASHD | FLASHE |
 	                        FLASHF | FLASHG | FLASHH | FLASHI | FLASHJ |
-	                        FLASHK | FLASHL | FLASHM | FLASHN,
+	                        FLASHK | FLASHL | FLASHM,
 	                   RUN = RAMLS2,
 	                   RUN_START(_Cla1ConstRunStart),
 	                   LOAD_START(_Cla1ConstLoadStart),
